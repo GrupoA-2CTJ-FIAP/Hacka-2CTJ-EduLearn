@@ -2,22 +2,27 @@ import { useState } from "react";
 import { Button, Container, Form, Alert } from "react-bootstrap";
 import Layout from "../components/layout";
 import { useAuth } from "../hooks/useAuth"; // Import the custom useAuth hook
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Login() {
   const { signIn } = useAuth(); // Get the signIn function from useAuth
+  const navigate = useNavigate(); // Initialize useNavigate
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // Explicitly type the event parameter
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the form from refreshing the page
     setLoading(true); // Show a loading state during the sign-in process
     setError(""); // Clear any previous errors
 
     const user = await signIn(email, password); // Call the signIn function
 
-    if (!user) {
+    if (user) {
+      navigate("/dashboard"); // Redirect to the dashboard on successful login
+    } else {
       setError("Failed to login. Please check your credentials.");
     }
 
