@@ -2,7 +2,7 @@ import { Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUpIcon from '../assets/signup-icon';
 import LoginIcon from '../assets/login-icon';
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 
 function Home() {
     return (
