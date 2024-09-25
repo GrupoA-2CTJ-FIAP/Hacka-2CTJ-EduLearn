@@ -9,12 +9,11 @@ const Register: React.FC = () => {
     const [isTeacher, setIsTeacher] = useState(false);
 
     const handleSwitchChange = () => {
-        setIsTeacher((prev) => !prev); // Toggle the switch state
+        setIsTeacher((prev) => !prev);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle registration logic here
         console.log("Registered:", { username, email, password });
     };
 
