@@ -5,7 +5,7 @@ function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       {/* Navbar */}
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="lg" style={{marginInline:'30px'}}>
         <Navbar.Brand href="#">EduLearn</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -32,8 +32,8 @@ function App() {
       </div>
 
       {/* About Section */}
-      <Container fluid className="mt-5"> {/* Make the container fluid */}
-        <Row>
+      <Container className="mt-5 "> {/* Make the container fluid */}
+        <Row className="justify-content-md-center">
           <Col>
             <h2>Sobre a Plataforma</h2>
             <p>EduLearn é uma plataforma que conecta professores e alunos, permitindo que professores gerenciem seus vídeos educacionais de forma centralizada.</p>
