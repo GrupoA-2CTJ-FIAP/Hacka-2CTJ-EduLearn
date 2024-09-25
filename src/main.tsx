@@ -1,13 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Home from './pages/home'
+import AuthProvider from './provider/authProvider';
+import Home from './pages/home';
 import Register from "./pages/register";
 import Login from './pages/login';
+import Dashboard from './pages/dashboard';
 
+// Define the routes
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,11 +23,19 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
   }
 ]);
 
+// Ensure AuthProvider wraps RouterProvider
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
-)
+    {/* Wrap the RouterProvider with AuthProvider */}
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </StrictMode>
+);

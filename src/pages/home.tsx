@@ -1,4 +1,4 @@
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUpIcon from '../assets/signup-icon';
 import LoginIcon from '../assets/login-icon';
@@ -48,7 +48,7 @@ function Home() {
                     </Button>
                 </div>
             </div>
-            <Container className="mt-5">
+            <section style={{ paddingInline: "20%", paddingBlock: "80px" }}>
                 <Row className="justify-content-md-center">
                     <Col>
                         <h2>Sobre a Plataforma</h2>
@@ -56,7 +56,25 @@ function Home() {
                         <p>Os alunos podem acessar facilmente os conteúdos dos seus professores, garantindo uma melhor experiência de aprendizado.</p>
                     </Col>
                 </Row>
-            </Container>
+            </section>
+            <section style={{ backgroundColor: "rgb(150, 220, 255)", paddingInline: "20%", paddingBlock: "80px" }}>
+                <Row className="justify-content-md-center">
+                    <Col style={{ textAlign: "right" }}>
+                        <h2>Mentoria Exclusiva</h2>
+                        <p>Crie seu cadastro e tenha todo o conteúdo do professor escolhido ao alcance de um botão.</p>
+                        <p>Leia comentários do professor sobre o conteúdo das aulas!</p>
+                    </Col>
+                </Row>
+            </section>
+            <section style={{ paddingInline: "20%", paddingBlock: "80px" }}>
+                <Row className="justify-content-md-center">
+                    <Col>
+                        <h2>Acesso Personalizado</h2>
+                        <p>Assista aos videos exclusivamente do seu professor pessoal!</p>
+                        <p>Aprendizado fácil, rápido e intuitivo.</p>
+                    </Col>
+                </Row>
+            </section>
         </Layout>
     );
 };
