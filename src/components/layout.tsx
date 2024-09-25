@@ -9,9 +9,11 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
     return (
         <>
-            <Header />
-            {children}
-            <Footer />
+            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+                <Header />
+                {children}
+                <Footer />
+            </div >
         </>
     );
 }
