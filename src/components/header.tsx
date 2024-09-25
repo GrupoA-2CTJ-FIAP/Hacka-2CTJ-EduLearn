@@ -24,7 +24,7 @@ const Header = () => {
                     {user ? (
                         <>
                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                            <Nav.Link onClick={handleLogout} style={{ cursor: 'pointer' }}>Sair</Nav.Link>
+                            <Nav.Link onClick={handleLogout} style={{ cursor: 'pointer', color: 'red' }}>Sair</Nav.Link>
                         </>
                     ) : (
                         <>
