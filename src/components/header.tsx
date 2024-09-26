@@ -17,10 +17,13 @@ const Header = () => {
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg" style={{ padding: '30px' }}>
-            <Navbar.Brand href="/" style={{}}>EduLearn</Navbar.Brand>
+            <Navbar.Brand href="/" style={{ paddingBlock: "30px", fontWeight: "700", fontSize: "48px" }}>
+                <span style={{ color: "rgb(0,200,250)" }}>Edu</span>
+                <span style={{ color: "lightgrey" }}>Learn</span>
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ms-auto">
+                <Nav className="ms-auto" style={{ paddingBlock: "30px", fontSize: "18px" }}>
                     {user ? (
                         <>
                             <Nav.Link onClick={handleLogout} style={{ cursor: 'pointer', color: 'red' }}>Sair</Nav.Link>

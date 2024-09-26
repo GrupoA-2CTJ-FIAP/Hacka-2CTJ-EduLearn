@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Container, Form, Alert, Card } from "react-bootstrap";
+import { Button, Container, Form, Alert, Card, Spinner } from "react-bootstrap";
 import Layout from "../components/layout";
 import { useAuth } from "../hooks/useAuth"; // Import the custom useAuth hook
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -34,13 +34,8 @@ export default function Login() {
     <Layout>
       <Container
         style={{
-          margin: "60px",
-          alignItems: "center",
-          display: "flex",
-          maxWidth: "95%",
-          flexDirection: "column",
-          justifyContent: "center",
-          textAlign: "left",
+          marginBlock:"auto",
+          maxWidth:"400px"
         }}
       >
 
@@ -78,7 +73,20 @@ export default function Login() {
               style={{ marginBlock: "20px" }}
               disabled={loading} // Disable button while loading
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  {' '}Entrando...
+                </>
+              ) : (
+                "Entrar"
+              )}
             </Button>
           </Form>
         </Card>

@@ -20,13 +20,8 @@ const Register: React.FC = () => {
     return (
         <Layout>
             <Container style={{
-                margin: "60px",
-                alignItems: "center",
-                display: "flex", // Use flexbox
-                maxWidth: "95%",
-                flexDirection: "column", // Align items in a column
-                justifyContent: "center", // Center items vertically
-                textAlign: "left", // Center text
+                marginBlock: "auto",
+                maxWidth: "400px"
             }}>
                 <Card style={{ padding: "20px" }}>
                     <Card.Title><h2>Cadastrar Usuário</h2></Card.Title>

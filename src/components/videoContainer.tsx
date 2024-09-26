@@ -28,7 +28,7 @@ const VideoContainer = () => {
         <Container className="text-center">
             <div className="video-container mb-4" style={{ position: "relative", width: "100%" }}>
                 <Card>
-                    <Card.Title style={{ paddingBlock: "30px" }}>{currentVideo.videoName}</Card.Title>
+                    <Card.Title style={{ paddingBlock: "30px", fontWeight:"700", color:"rgb(0,200,250)", fontSize:"28px"}}>{currentVideo.videoName}</Card.Title>
                     <iframe
                         src={`https://www.youtube.com/embed/${currentVideo.videoUrl}`}
                         title="YouTube video player"
