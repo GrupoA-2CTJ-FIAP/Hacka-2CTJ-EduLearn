@@ -27,7 +27,7 @@ const VideoContainer = () => {
     return (
         <Container className="text-center">
             <div className="video-container mb-4" style={{ position: "relative", width: "100%" }}>
-                <Card style={{ margin: "20px" }}>
+                <Card>
                     <Card.Title style={{ paddingBlock: "30px" }}>{currentVideo.videoName}</Card.Title>
                     <iframe
                         src={`https://www.youtube.com/embed/${currentVideo.videoUrl}`}
@@ -57,7 +57,7 @@ const VideoContainer = () => {
                             variant="outline-primary"
                             onClick={() => {
                                 setCurrentVideo(video);
-                                handleClose();  // Close the OffCanvas after selecting a video
+                                handleClose();
                             }}
                             className="d-block mb-2"
                             active={currentVideo.videoUrl === video.videoUrl}

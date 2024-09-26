@@ -23,13 +23,12 @@ const Header = () => {
                 <Nav className="ms-auto">
                     {user ? (
                         <>
-                            <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                             <Nav.Link onClick={handleLogout} style={{ cursor: 'pointer', color: 'red' }}>Sair</Nav.Link>
                         </>
                     ) : (
                         <>
                             <Nav.Link href="/register">Cadastrar</Nav.Link>
-                            <Nav.Link href="/login">Login</Nav.Link>
+                            <Nav.Link href="/login" style={{ cursor: 'pointer', color: 'cyan' }}>Login</Nav.Link>
                         </>
                     )}
                 </Nav>
