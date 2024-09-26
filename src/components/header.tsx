@@ -16,8 +16,8 @@ const Header = () => {
     };
 
     return (
-        <Navbar bg="light" expand="lg" style={{ marginInline: '30px' }}>
-            <Navbar.Brand href="/">EduLearn</Navbar.Brand>
+        <Navbar bg="dark" variant="dark" expand="lg" style={{ padding: '30px' }}>
+            <Navbar.Brand href="/" style={{}}>EduLearn</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">

@@ -21,6 +21,7 @@ export default function Login() {
     const user = await signIn(email, password); // Call the signIn function
 
     if (user) {
+        console.log(user)
       navigate("/dashboard"); // Redirect to the dashboard on successful login
     } else {
       setError("Failed to login. Please check your credentials.");
