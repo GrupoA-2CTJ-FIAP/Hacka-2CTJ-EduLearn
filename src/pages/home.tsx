@@ -48,7 +48,7 @@ function Home() {
                     </Button>
                 </div>
             </div>
-            <section style={{ paddingInline: "20%", paddingBlock: "80px" }}>
+            <section style={{ paddingInline: "20%", paddingBlock: "80px", backgroundColor: "white", }}>
                 <Row className="justify-content-md-center">
                     <Col>
                         <h2>Sobre a Plataforma</h2>
@@ -66,7 +66,7 @@ function Home() {
                     </Col>
                 </Row>
             </section>
-            <section style={{ paddingInline: "20%", paddingBlock: "80px" }}>
+            <section style={{ paddingInline: "20%", paddingBlock: "80px", backgroundColor: "white", }}>
                 <Row className="justify-content-md-center">
                     <Col>
                         <h2>Acesso Personalizado</h2>
