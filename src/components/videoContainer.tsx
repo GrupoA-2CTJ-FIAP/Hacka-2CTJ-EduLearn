@@ -19,7 +19,11 @@ const VideoContainer = () => {
         const fetchVideos = async () => {
             try {
                 const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
-                const response = await instance.get('/videos/aluno', {
+                let endpoint = "aluno"
+                if(token.user.role=="teacher"){
+                    endpoint="professor"
+                }
+                const response = await instance.get(`/videos/${endpoint}`, {
                     headers: { Authorization: `Bearer ${token.access_token}` }
                 });
                 const videoData = response.data.data;
