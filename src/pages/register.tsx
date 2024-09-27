@@ -34,7 +34,7 @@ const Register: React.FC = () => {
         };
 
         fetchTeachers();
-    }, []); // Empty dependency array ensures this runs once on mount
+    }, []);
 
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsTeacher(e.target.checked);
