@@ -11,13 +11,21 @@ const Register: React.FC = () => {
     const [isTeacher, setIsTeacher] = useState<boolean>(false);
     const [responsibleTeacher, setResponsibleTeacher] = useState<string>("");
 
-    const handleSwitchChange = () => {
-        setIsTeacher((prev) => !prev);
+    const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsTeacher(e.target.checked);
         setResponsibleTeacher(""); // Clear the selected teacher if the user toggles the switch
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log({
+            "nome_usuario": username,
+            "numero_documento": cpf,
+            "email": email,
+            "senha": password,
+            "id_professor": isTeacher ? null : responsibleTeacher,
+            "flag_professor": isTeacher
+        })
         try {
             await instance.post('signup', {
                 "nome_usuario": username,
@@ -25,7 +33,7 @@ const Register: React.FC = () => {
                 "email": email,
                 "senha": password,
                 "id_professor": isTeacher ? null : responsibleTeacher,
-                "flagProfessor": isTeacher
+                "flag_professor": isTeacher
             })
 
             console.log("Registered successfully:");
