@@ -1,8 +1,8 @@
 import { createContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { createClient, User } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://yhuhhyjrbuveavowpwlj.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlodWhoeWpyYnV2ZWF2b3dwd2xqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDkyMTA5MDMsImV4cCI6MjAyNDc4NjkwM30.MU8HBOHQSBv1xalu97nPz-jnMg9Bq1awELtOZvypahg";
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Define the AuthContextType interface

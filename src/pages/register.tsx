@@ -77,6 +77,7 @@ const Register: React.FC = () => {
                                 label="Professor"
                                 checked={isTeacher}
                                 onChange={handleSwitchChange}
+                                style={{marginBlock:"8px"}}
                             />
                             <Form.Select aria-label="Default select example" disabled={isTeacher}>
                                 <option>Selecione o professor responsável</option>
@@ -88,7 +89,7 @@ const Register: React.FC = () => {
                         </Form.Group>
 
                         <Button variant="primary" type="submit" style={{ marginBlock: "20px" }}>
-                            Register
+                            Cadastrar
                         </Button>
                     </Form>
                 </Card>

@@ -1,6 +1,11 @@
-import { useState } from 'react';
-import { Button, Offcanvas, OffcanvasHeader, OffcanvasBody, Container, Card } from 'react-bootstrap';
+import { useState, useRef } from 'react';
+import { Button, Container, Card, Table, Row, Col } from 'react-bootstrap';
 
+interface Video {
+    videoName: string;
+    videoUrl: string;
+    comment: string;
+}
 const VideoContainer = () => {
     const videos = [
         {
@@ -19,54 +24,59 @@ const VideoContainer = () => {
             comment: 'Sed at lorem nec massa rutrum cursus ac a turpis. Phasellus malesuada nec enim quis porttitor. Sed eu nisl in quam dignissim pretium. Curabitur placerat id tellus sit amet bibendum. Maecenas id massa tincidunt, elementum mauris eget, auctor ante. Nunc nulla odio, fringilla ac lacus ac, aliquet egestas odio. Nunc sagittis nulla nulla, ac pretium enim elementum vel. Cras elit quam, mattis sed sapien sit amet, auctor ultricies odio. Suspendisse vitae vehicula nunc, nec rutrum sem. Praesent in lobortis nisi, nec facilisis libero. Nam volutpat leo at nisl dapibus efficitur quis id mauris.',
         },
     ];
+
     const [currentVideo, setCurrentVideo] = useState(videos[0]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const videoRef = useRef<HTMLDivElement>(null); // Create a ref for the video container
+
+    const handleVideoChange = (video: Video) => {
+        setCurrentVideo(video);
+        if (videoRef.current) {
+            videoRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to video
+        }
+    };
 
     return (
         <Container className="text-center">
-            <div className="video-container mb-4" style={{ position: "relative", width: "100%" }}>
-                <Card>
-                    <Card.Title style={{ paddingBlock: "30px", fontWeight:"700", color:"rgb(0,200,250)", fontSize:"28px"}}>{currentVideo.videoName}</Card.Title>
-                    <iframe
-                        src={`https://www.youtube.com/embed/${currentVideo.videoUrl}`}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        style={{ width: "100%", height: "100%", top: "0", left: "0", aspectRatio: "16/9" }}
-                    ></iframe>
-                    <Card.Text style={{ padding: "20px" }}>{currentVideo.comment}</Card.Text>
-                    {/* Button to toggle the OffCanvas */}
-                    <Button variant="primary" onClick={handleShow}>
-                        Aulas
-                    </Button>
-                </Card>
-            </div>
+            <Row className="mb-4">
+                <Col xs={12} md={8}>
+                    <Card ref={videoRef}>
+                        <Card.Title style={{ paddingBlock: "30px", fontWeight: "700", color: "rgb(0,200,250)", fontSize: "28px" }}>{currentVideo.videoName}</Card.Title>
+                        <iframe
+                            src={`https://www.youtube.com/embed/${currentVideo.videoUrl}`}
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            style={{ width: "100%", height: "100%", aspectRatio: "16/9" }}
+                        ></iframe>
+                        <Card.Text style={{ padding: "20px" }}>{currentVideo.comment}</Card.Text>
+                    </Card>
+                </Col>
 
-            {/* OffCanvas for video list */}
-            <Offcanvas show={show} onHide={handleClose} placement="bottom">
-                <OffcanvasHeader closeButton>
-                    <Offcanvas.Title>Aulas</Offcanvas.Title>
-                </OffcanvasHeader>
-                <OffcanvasBody>
-                    {videos.map((video, index) => (
-                        <Button
-                            key={index}
-                            variant="outline-primary"
-                            onClick={() => {
-                                setCurrentVideo(video);
-                                handleClose();
-                            }}
-                            className="d-block mb-2"
-                            active={currentVideo.videoUrl === video.videoUrl}
-                        >
-                            {video.videoName}
-                        </Button>
-                    ))}
-                </OffcanvasBody>
-            </Offcanvas>
+                <Col xs={12} md={4}>
+                    <Card>
+                        <Card.Header>Aulas</Card.Header>
+                        <Table striped bordered hover>
+                            <tbody>
+                                {videos.map((video, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <Button
+                                                variant="outline-primary"
+                                                onClick={() => handleVideoChange(video)} // Use the new function to change video
+                                                className="w-100"
+                                                active={currentVideo.videoUrl === video.videoUrl}
+                                            >
+                                                {video.videoName}
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Card>
+                </Col>
+            </Row>
         </Container>
     );
 };
