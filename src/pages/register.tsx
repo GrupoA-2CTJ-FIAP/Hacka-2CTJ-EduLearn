@@ -4,8 +4,8 @@ import Layout from "../components/layout";
 import instance from '../services/supabase'
 
 interface Teacher {
-    id: string;
-    name: string;
+    id_usuario: string;
+    nome_usuario: string;
 }
 
 const Register: React.FC = () => {
@@ -20,17 +20,16 @@ const Register: React.FC = () => {
     // Fetch teachers when component mounts
     useEffect(() => {
         const fetchTeachers = async () => {
-            const professoresMock: Teacher[] = [{ id: '1', name: 'Teste' }, { id: '2', name: 'Teste2' }, { id: '3', name: 'Teste3' }]
-            setTeachers(professoresMock
-            )
-            /*
+
             try {
                 const response = await instance.get('/teacher');
-                setTeachers(response.data); // Assuming the data is an array of teachers
+                setTeachers(response.data);
+
+                console.log(response.data)
             } catch (error) {
                 console.error("Error fetching teachers:", error);
                 alert("Erro ao buscar professores!");
-            }*/
+            }
         };
 
         fetchTeachers();
@@ -130,8 +129,8 @@ const Register: React.FC = () => {
                             >
                                 <option value="">Selecione o professor responsável</option>
                                 {teachers.map(teacher => (
-                                    <option key={teacher.id} value={teacher.id}>
-                                        {teacher.name}
+                                    <option key={teacher.id_usuario} value={teacher.id_usuario}>
+                                        {teacher.nome_usuario}
                                     </option>
                                 ))}
 

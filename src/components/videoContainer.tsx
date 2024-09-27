@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Container, Card, Table, Row, Col, Spinner } from 'react-bootstrap';
+import { Button, Container, Card, Table, Row, Col, Spinner, Form } from 'react-bootstrap';
 import instance from '../services/supabase';
 
 interface Video {
@@ -12,16 +12,26 @@ interface Video {
 const VideoContainer = () => {
     const [videos, setVideos] = useState<Video[]>([]);
     const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
-    const [loading, setLoading] = useState<boolean>(true); // Loading state
+    const [loading, setLoading] = useState<boolean>(true);
     const videoRef = useRef<HTMLDivElement>(null);
+
+    // States for editing
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [editedName, setEditedName] = useState<string>("");
+    const [editedUrl, setEditedUrl] = useState<string>("");
+    const [editedComment, setEditedComment] = useState<string>("");
+
+    // Determine if the user is a teacher
+    const [isTeacher, setIsTeacher] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchVideos = async () => {
             try {
                 const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
-                let endpoint = "aluno"
-                if(token.user.role=="teacher"){
-                    endpoint="professor"
+                let endpoint = "aluno";
+                if (token.user.role === "teacher") {
+                    endpoint = "professor";
+                    setIsTeacher(true); // Set isTeacher to true if the user is a teacher
                 }
                 const response = await instance.get(`/videos/${endpoint}`, {
                     headers: { Authorization: `Bearer ${token.access_token}` }
@@ -38,7 +48,7 @@ const VideoContainer = () => {
                 console.error("Error fetching videos:", error);
                 alert("Erro ao buscar vídeos!");
             } finally {
-                setLoading(false); // Set loading to false after fetching
+                setLoading(false);
             }
         };
 
@@ -47,9 +57,71 @@ const VideoContainer = () => {
 
     const handleVideoChange = (video: Video) => {
         setCurrentVideo(video);
+        setEditedName(video.nome_video);
+        setEditedUrl(video.video_url);
+        setEditedComment(video.comentario);
+        setIsEditing(false);
         if (videoRef.current) {
             videoRef.current.scrollIntoView({ behavior: 'smooth' });
         }
+    };
+
+    const handleEdit = () => {
+        if (currentVideo) {
+            setEditedName(currentVideo.nome_video);
+            setEditedUrl(currentVideo.video_url);
+            setEditedComment(currentVideo.comentario);
+            setIsEditing(true);
+        }
+    };
+
+    const handleSave = async () => {
+        if (currentVideo) {
+            try {
+                await instance.put(`/videos/${currentVideo.id_video}`, {
+                    nome_video: editedName,
+                    video_url: editedUrl,
+                    comentario: editedComment,
+                });
+
+                // Update the videos state locally
+                setVideos(videos.map(video =>
+                    video.id_video === currentVideo.id_video
+                        ? { ...video, nome_video: editedName, video_url: editedUrl, comentario: editedComment }
+                        : video
+                ));
+                setCurrentVideo({ ...currentVideo, nome_video: editedName, video_url: editedUrl, comentario: editedComment });
+                alert("Video updated successfully!");
+            } catch (error) {
+                console.error("Error updating video:", error);
+                alert("Erro ao atualizar vídeo!");
+            } finally {
+                setIsEditing(false);
+            }
+        }
+    };
+
+    const handleDelete = async () => {
+        if (currentVideo) {
+            const confirmed = window.confirm("Tem certeza de que deseja excluir este vídeo?");
+            if (confirmed) {
+                try {
+                    await instance.delete(`/videos/${currentVideo.id_video}`);
+
+                    // Update the videos state locally
+                    setVideos(videos.filter(video => video.id_video !== currentVideo.id_video));
+                    setCurrentVideo(null); // Reset current video if it was deleted
+                    alert("Video deleted successfully!");
+                } catch (error) {
+                    console.error("Error deleting video:", error);
+                    alert("Erro ao excluir vídeo!");
+                }
+            }
+        }
+    };
+
+    const handleBack = () => {
+        setIsEditing(false); // Reset editing state
     };
 
     return (
@@ -63,11 +135,11 @@ const VideoContainer = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <Spinner animation="border" variant="primary" /> {/* Spinner */}
+                    <Spinner animation="border" variant="primary" />
                 </div>
             )}
 
-            {!loading && ( // Render content only when not loading
+            {!loading && (
                 <Row className="mb-4">
                     <Col xs={12} md={8}>
                         {currentVideo ? (
@@ -75,15 +147,56 @@ const VideoContainer = () => {
                                 <Card.Title style={{ paddingBlock: "30px", fontWeight: "700", color: "rgb(0,200,250)", fontSize: "28px" }}>
                                     {currentVideo.nome_video}
                                 </Card.Title>
-                                <iframe
-                                    src={`https://www.youtube.com/embed/${currentVideo.video_url}`}
-                                    title="YouTube video player"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    style={{ width: "100%", height: "100%", aspectRatio: "16/9" }}
-                                ></iframe>
-                                <Card.Text style={{ padding: "20px" }}>{currentVideo.comentario}</Card.Text>
+
+                                {/* Display editing fields only if the user is a teacher and in edit mode */}
+                                {isEditing && isTeacher ? (
+                                    <Form>
+                                        <Form.Group>
+                                            <Form.Label>Nome do Vídeo</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                value={editedName}
+                                                onChange={(e) => setEditedName(e.target.value)}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Label>URL do Vídeo</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                value={editedUrl}
+                                                onChange={(e) => setEditedUrl(e.target.value)}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Label>Comentário</Form.Label>
+                                            <Form.Control
+                                                as="textarea"
+                                                value={editedComment}
+                                                onChange={(e) => setEditedComment(e.target.value)}
+                                            />
+                                        </Form.Group>
+                                        <Button variant="primary" onClick={handleSave}>Salvar</Button>
+                                        <Button variant="secondary" onClick={handleBack} style={{ marginLeft: "10px" }}>Voltar</Button>
+                                    </Form>
+                                ) : (
+                                    <>
+                                        <iframe
+                                            src={`https://www.youtube.com/embed/${currentVideo.video_url}`}
+                                            title="YouTube video player"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            style={{ width: "100%", height: "100%", aspectRatio: "16/9" }}
+                                        ></iframe>
+                                        <Card.Text style={{ padding: "20px" }}>{currentVideo.comentario}</Card.Text>
+                                        {isTeacher && (
+                                            <>
+                                                <Button variant="outline-secondary" onClick={handleEdit}>Editar</Button>
+                                                <Button variant="outline-danger" onClick={handleDelete} style={{ marginLeft: "10px" }}>Excluir</Button>
+                                            </>
+                                        )}
+                                    </>
+                                )}
                             </Card>
                         ) : (
                             <Card>

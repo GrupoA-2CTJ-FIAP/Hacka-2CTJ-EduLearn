@@ -24,7 +24,7 @@ router.post('/signup', createUser)
 router.post('/login', login)
 router.get('/users', authMiddleware, getUsers)
 router.get('/student', authMiddleware, getUserStudent)
-router.get('/teacher', authMiddleware, getUserTeacher)
+router.get('/teacher', getUserTeacher)
 router.put('/users/:id_usuario', authMiddleware, updateUser)
 router.delete('/users/:id_usuario', authMiddleware, deleteUser)
 
