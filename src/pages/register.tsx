@@ -1,28 +1,45 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import Layout from "../components/layout";
+import instance from '../services/supabase'
 
 const Register: React.FC = () => {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isTeacher, setIsTeacher] = useState(false);
+    const [username, setUsername] = useState<string>("");
+    const [cpf, setCpf] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [isTeacher, setIsTeacher] = useState<boolean>(false);
+    const [responsibleTeacher, setResponsibleTeacher] = useState<string>("");
 
     const handleSwitchChange = () => {
         setIsTeacher((prev) => !prev);
+        setResponsibleTeacher(""); // Clear the selected teacher if the user toggles the switch
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Registered:", { username, email, password });
+        try {
+            await instance.post('signup', {
+                "nome_usuario": username,
+                "numero_documento": cpf,
+                "email": email,
+                "senha": password,
+                "id_professor": isTeacher ? null : responsibleTeacher,
+                "flagProfessor": isTeacher
+            })
+
+            console.log("Registered successfully:");
+            alert("User registered successfully!");
+
+        } catch (error) {
+            console.error("Error registering:", error);
+            alert("Erro ao cadastrar usuário!")
+        }
     };
 
     return (
         <Layout>
-            <Container style={{
-                marginBlock: "auto",
-                maxWidth: "400px"
-            }}>
+            <Container style={{ marginBlock: "auto", maxWidth: "400px" }}>
                 <Card style={{ padding: "20px" }}>
                     <Card.Title><h2>Cadastrar Usuário</h2></Card.Title>
                     <Form onSubmit={handleSubmit}>
@@ -32,7 +49,7 @@ const Register: React.FC = () => {
                                 type="text"
                                 placeholder="Nome Completo"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                                 required
                             />
                         </Form.Group>
@@ -42,8 +59,8 @@ const Register: React.FC = () => {
                             <Form.Control
                                 type="text"
                                 placeholder="CPF"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={cpf}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf(e.target.value)}
                                 required
                             />
                         </Form.Group>
@@ -54,7 +71,7 @@ const Register: React.FC = () => {
                                 type="email"
                                 placeholder="email@exemplo.com"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                                 required
                             />
                         </Form.Group>
@@ -65,7 +82,7 @@ const Register: React.FC = () => {
                                 type="password"
                                 placeholder="Senha"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                                 required
                             />
                         </Form.Group>
@@ -77,10 +94,16 @@ const Register: React.FC = () => {
                                 label="Professor"
                                 checked={isTeacher}
                                 onChange={handleSwitchChange}
-                                style={{marginBlock:"8px"}}
+                                style={{ marginBlock: "8px" }}
                             />
-                            <Form.Select aria-label="Default select example" disabled={isTeacher}>
-                                <option>Selecione o professor responsável</option>
+                            <Form.Select
+                                aria-label="Selecione o professor responsável"
+                                value={responsibleTeacher}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setResponsibleTeacher(e.target.value)}
+                                disabled={isTeacher} // Disable if the user is a teacher
+                                required={!isTeacher} // Require if the user is not a teacher
+                            >
+                                <option value="">Selecione o professor responsável</option>
                                 <option value="1">Abobrinha</option>
                                 <option value="2">Utonio</option>
                                 <option value="3">Carvalho</option>
