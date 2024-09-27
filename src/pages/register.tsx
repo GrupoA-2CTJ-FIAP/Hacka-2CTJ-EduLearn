@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import Layout from "../components/layout";
 import instance from '../services/supabase'
+
+interface Teacher {
+    id: string;
+    name: string;
+}
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState<string>("");
@@ -10,6 +15,26 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [isTeacher, setIsTeacher] = useState<boolean>(false);
     const [responsibleTeacher, setResponsibleTeacher] = useState<string>("");
+    const [teachers, setTeachers] = useState<Teacher[]>([]); // State for teachers
+
+    // Fetch teachers when component mounts
+    useEffect(() => {
+        const fetchTeachers = async () => {
+            const professoresMock: Teacher[] = [{ id: '1', name: 'Teste' }, { id: '2', name: 'Teste2' }, { id: '3', name: 'Teste3' }]
+            setTeachers(professoresMock
+            )
+            /*
+            try {
+                const response = await instance.get('/teacher');
+                setTeachers(response.data); // Assuming the data is an array of teachers
+            } catch (error) {
+                console.error("Error fetching teachers:", error);
+                alert("Erro ao buscar professores!");
+            }*/
+        };
+
+        fetchTeachers();
+    }, []); // Empty dependency array ensures this runs once on mount
 
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsTeacher(e.target.checked);
@@ -18,14 +43,6 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log({
-            "nome_usuario": username,
-            "numero_documento": cpf,
-            "email": email,
-            "senha": password,
-            "id_professor": isTeacher ? null : responsibleTeacher,
-            "flag_professor": isTeacher
-        })
         try {
             await instance.post('signup', {
                 "nome_usuario": username,
@@ -112,10 +129,12 @@ const Register: React.FC = () => {
                                 required={!isTeacher} // Require if the user is not a teacher
                             >
                                 <option value="">Selecione o professor responsável</option>
-                                <option value="1">Abobrinha</option>
-                                <option value="2">Utonio</option>
-                                <option value="3">Carvalho</option>
-                                <option value="4">Girafales</option>
+                                {teachers.map(teacher => (
+                                    <option key={teacher.id} value={teacher.id}>
+                                        {teacher.name}
+                                    </option>
+                                ))}
+
                             </Form.Select>
                         </Form.Group>
 
