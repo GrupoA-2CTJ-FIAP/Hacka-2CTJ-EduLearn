@@ -7,7 +7,6 @@ const Header = () => {
     const navigate = useNavigate(); // Initialize useNavigate for redirection
 
     const handleLogout = async () => {
-        console.log(user)
         try {
             await signOut();
             navigate("/");

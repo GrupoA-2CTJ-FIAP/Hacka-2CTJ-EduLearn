@@ -16,41 +16,42 @@ const VideoContainer = () => {
     const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const videoRef = useRef<HTMLDivElement>(null);
-
     const [isTeacher, setIsTeacher] = useState<boolean>(false);
     const [teacherName, setTeacherName] = useState<string>('');
 
-    useEffect(() => {
-        const fetchVideos = async () => {
-            const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
-            if (token.user.role === "teacher") {
-                setIsTeacher(true); // Set isTeacher to true if the user is a teacher
+    const fetchVideos = async () => {
+        const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
+        if (token.user.role === "teacher") {
+            setIsTeacher(true);
+        }
+        try {
+            const response = await instance.get(`/videos/aluno`, {
+                headers: { Authorization: `Bearer ${token.access_token}` }
+            });
+            const videoData = response.data.videos;
+            setTeacherName(response.data.professor)
+            if (videoData.length > 0) {
+                setVideos(videoData);
+                setCurrentVideo(videoData[0]);
+            } else {
+                setVideos([]);
+                setCurrentVideo(null);
             }
-            try {
-                const response = await instance.get(`/videos/aluno`, {
-                    headers: { Authorization: `Bearer ${token.access_token}` }
-                });
-                const videoData = response.data.videos;
-                console.log(videoData)
-                setTeacherName(response.data.professor)
-                if (videoData.length > 0) {
-                    setVideos(videoData);
-                    setCurrentVideo(videoData[0]);
-                } else {
-                    setVideos([]);
-                    setCurrentVideo(null);
-                }
-            } catch (error) {
-                console.error("Error fetching videos:", error);
-                alert("Erro ao buscar vídeos!");
-            } finally {
-                setLoading(false);
-            }
-        };
+        } catch (error) {
+            console.error("Error fetching videos:", error);
+            alert("Erro ao buscar vídeos!");
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchVideos();
     }, []);
 
+    const handleVideoDelete = async () => {
+        await fetchVideos(); // Refresh the video list after deletion
+    };
     const handleVideoChange = (video: Video) => {
         setCurrentVideo(video);
         if (videoRef.current) {
@@ -92,7 +93,7 @@ const VideoContainer = () => {
                                 <Card.Text style={{ padding: "20px" }}>{currentVideo.comentario}</Card.Text>
                                 {isTeacher && (
                                     <>
-                                        <VideoForm currentVideo={currentVideo} />
+                                        <VideoForm currentVideo={currentVideo} onDeleteSuccess={handleVideoDelete}/>
                                     </>
                                 )}
                             </Card>

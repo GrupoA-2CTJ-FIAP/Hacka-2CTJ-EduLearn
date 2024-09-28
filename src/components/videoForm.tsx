@@ -1,5 +1,6 @@
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Spinner } from 'react-bootstrap';
 import { useState } from 'react';
+import instance from '../services/supabase';
 
 interface Video {
     id_video: number;
@@ -12,22 +13,40 @@ interface VideoFormProps {
     currentVideo?: Video | null;
 }
 
-const VideoForm: React.FC<VideoFormProps> = ({ currentVideo }) => {
+const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onDeleteSuccess }) => {
     const [show, setShow] = useState(false);
     const [videoName, setVideoName] = useState("");
     const [videoUrl, setVideoUrl] = useState("");
     const [videoComment, setVideoComment] = useState("");
+    const [loading, setLoading] = useState(false); // Loading state for the spinner
 
     const handleClose = () => setShow(false);
 
+    async function handleDelete() {
+        try {
+            setLoading(true);
+            const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
+            const response = await instance.delete(`/videos/${currentVideo?.id_video}`, {
+                headers: { Authorization: `Bearer ${token.access_token}` }
+            });
+            console.log(response);
+            alert("Aula excluída com sucesso!");
+            onDeleteSuccess();
+            handleClose();
+        } catch (error) {
+            console.error("Error deleting video:", error);
+            alert("Erro ao excluir a aula!");
+        } finally {
+            setLoading(false); 
+        }
+    }
+
     const handleShow = () => {
         if (currentVideo) {
-            // Preload data if editing a video
             setVideoName(currentVideo.nome_video);
             setVideoUrl(currentVideo.video_url);
             setVideoComment(currentVideo.comentario);
         } else {
-            // Reset the form if creating a new video
             setVideoName("");
             setVideoUrl("");
             setVideoComment("");
@@ -86,11 +105,18 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo }) => {
                 </Modal.Body>
                 <Modal.Footer>
                     {currentVideo && (
-                        <Button variant="danger">
-                            Excluir Aula
+                        <Button variant="danger" onClick={handleDelete} disabled={loading}>
+                            {loading ? (
+                                <>
+                                    <Spinner as="span" animation="border" size="sm" style={{ marginRight: '5px' }} />
+                                    Excluindo...
+                                </>
+                            ) : (
+                                "Excluir Aula"
+                            )}
                         </Button>
                     )}
-                    <Button style={{ backgroundColor: "rgb(0, 200, 250)" }}>
+                    <Button style={{ backgroundColor: "rgb(0, 200, 250)" }} disabled={loading}>
                         {currentVideo ? "Alterar Aula" : "Criar Aula"}
                     </Button>
                 </Modal.Footer>
