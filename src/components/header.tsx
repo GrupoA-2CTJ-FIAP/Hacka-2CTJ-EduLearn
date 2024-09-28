@@ -7,6 +7,7 @@ const Header = () => {
     const navigate = useNavigate(); // Initialize useNavigate for redirection
 
     const handleLogout = async () => {
+        console.log(user)
         try {
             await signOut();
             navigate("/");
@@ -17,7 +18,7 @@ const Header = () => {
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg" style={{ padding: '20px' }}>
-            <Navbar.Brand href="/" style={{  fontWeight: "700", fontSize: "48px" }}>
+            <Navbar.Brand href="/" style={{ fontWeight: "700", fontSize: "48px" }}>
                 <span style={{ color: "rgb(0,200,250)" }}>Edu</span>
                 <span style={{ color: "lightgrey" }}>Learn</span>
             </Navbar.Brand>
@@ -26,6 +27,7 @@ const Header = () => {
                 <Nav className="ms-auto" style={{ paddingBlock: "30px", fontSize: "18px" }}>
                     {user ? (
                         <>
+                            <Nav.Link style={{ cursor: 'pointer', color: 'white' }}>{user.email}</Nav.Link>
                             <Nav.Link onClick={handleLogout} style={{ cursor: 'pointer', color: 'red' }}>Sair</Nav.Link>
                         </>
                     ) : (

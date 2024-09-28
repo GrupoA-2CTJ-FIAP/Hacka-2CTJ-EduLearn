@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Container, Card, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Card, Row, Col, Spinner } from 'react-bootstrap';
 import VideoList from './videoList';
+import VideoForm from './videoForm';
 import instance from '../services/supabase';
 
 interface Video {
@@ -90,7 +91,7 @@ const VideoContainer = () => {
                                 <Card.Text style={{ padding: "20px" }}>{currentVideo.comentario}</Card.Text>
                                 {isTeacher && (
                                     <>
-                                        <Button variant="primary" style={{backgroundColor:"rgb(0, 200, 250)",width:"120px",marginInline:"auto",marginBottom:"20px"}}>Editar Aula</Button>
+                                        <VideoForm currentVideo={currentVideo} />
                                     </>
                                 )}
                             </Card>

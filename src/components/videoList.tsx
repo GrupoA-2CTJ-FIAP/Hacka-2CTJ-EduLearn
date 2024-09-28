@@ -1,4 +1,5 @@
 import { Button, Table, Card, CardBody } from 'react-bootstrap';
+import VideoForm from './videoForm';
 
 interface Video {
     id_video: number;
@@ -15,13 +16,18 @@ interface VideoListProps {
 }
 
 const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideoChange, isTeacher }) => {
+    // Sort the videos alphabetically by 'nome_video'
+    const sortedVideos = [...videos].sort((a, b) =>
+        a.nome_video.localeCompare(b.nome_video)
+    );
+
     return (
         <Card>
             <Card.Header>Aulas</Card.Header>
             <Table striped bordered hover>
                 <tbody>
-                    {videos.length > 0 ? (
-                        videos.map((video, index) => (
+                    {sortedVideos.length > 0 ? (
+                        sortedVideos.map((video, index) => (
                             <tr key={index}>
                                 <td>
                                     <Button
@@ -44,7 +50,7 @@ const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideo
             </Table>
             {isTeacher && (
                 <CardBody>
-                    <Button style={{backgroundColor:"rgb(0, 200, 250)",width:"120px",marginInline:"auto",marginBottom:"20px"}}>Nova Aula</Button>
+                    <VideoForm />
                 </CardBody>
             )}
         </Card>
