@@ -49,7 +49,7 @@ const VideoContainer = () => {
         fetchVideos();
     }, []);
 
-    const handleVideoDelete = async () => {
+    const handleRefresh = async () => {
         await fetchVideos(); // Refresh the video list after deletion
     };
     const handleVideoChange = (video: Video) => {
@@ -93,7 +93,7 @@ const VideoContainer = () => {
                                 <Card.Text style={{ padding: "20px" }}>{currentVideo.comentario}</Card.Text>
                                 {isTeacher && (
                                     <>
-                                        <VideoForm currentVideo={currentVideo} onDeleteSuccess={handleVideoDelete}/>
+                                        <VideoForm currentVideo={currentVideo} onSuccessfulAction={handleRefresh} />
                                     </>
                                 )}
                             </Card>

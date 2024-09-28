@@ -269,7 +269,7 @@ exports.getVideosByAluno = async (req, res) => {
       .select('id_professor, id_usuario, nome_usuario')
       .eq('auth_id', auth_id)
       .single();
-
+    console.log(usuario)
     if (usuarioError || !usuario) {
       console.error('Erro ao buscar o usuário:', usuarioError);
       return res
@@ -305,7 +305,7 @@ exports.getVideosByAluno = async (req, res) => {
     const { data: videos, error: videoError } = await supabase
       .from('d_catalogo')
       .select('*')
-      .eq('id_usuario', id_professor);  // id_professor is now correctly set to an integer
+      .eq('id_usuario', id_professor);
 
     if (videoError) {
       console.error('Erro ao listar vídeos:', videoError);

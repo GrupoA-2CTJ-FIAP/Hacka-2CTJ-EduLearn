@@ -10,10 +10,11 @@ interface Video {
 }
 
 interface VideoFormProps {
-    currentVideo?: Video | null;
+    currentVideo?: Video | null,
+    onSuccessfulAction: () => void;
 }
 
-const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onDeleteSuccess }) => {
+const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction }) => {
     const [show, setShow] = useState(false);
     const [videoName, setVideoName] = useState("");
     const [videoUrl, setVideoUrl] = useState("");
@@ -31,13 +32,60 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onDeleteSuccess }) 
             });
             console.log(response);
             alert("Aula excluída com sucesso!");
-            onDeleteSuccess();
+            onSuccessfulAction();
             handleClose();
         } catch (error) {
             console.error("Error deleting video:", error);
             alert("Erro ao excluir a aula!");
         } finally {
-            setLoading(false); 
+            setLoading(false);
+        }
+    }
+    async function handleUpdate() {
+        try {
+            setLoading(true);
+            const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
+            const updateData = {
+                nome_video: videoName,
+                video_url: videoUrl,
+                comentario: videoComment
+            };
+            const response = await instance.put(`/videos/${currentVideo?.id_video}`, updateData, {
+                headers: { Authorization: `Bearer ${token.access_token}` }
+            });
+            console.log(response);
+            alert("Aula atualizada com sucesso!"); // Update alert message
+            onSuccessfulAction(); // Call the success handler to refresh the list
+            handleClose(); // Close modal after updating
+        } catch (error) {
+            console.error("Error updating video:", error);
+            alert("Erro ao atualizar a aula!"); // Update error alert message
+        } finally {
+            setLoading(false); // Stop loading
+        }
+    }
+    async function handleCreate() {
+        try {
+            setLoading(true);
+            const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
+            const updateData = {
+                nome_video: videoName,
+                video_url: "https://www.youtube.com/watch?v="+videoUrl,
+                comentario: videoComment
+            };
+            console.log(updateData)
+            const response = await instance.put(`/videos/${currentVideo?.id_video}`, updateData, {
+                headers: { Authorization: `Bearer ${token.access_token}` }
+            });
+            console.log(response);
+            alert("Aula atualizada com sucesso!"); // Update alert message
+            onSuccessfulAction(); // Call the success handler to refresh the list
+            handleClose(); // Close modal after updating
+        } catch (error) {
+            console.error("Error updating video:", error);
+            alert("Erro ao atualizar a aula!"); // Update error alert message
+        } finally {
+            setLoading(false); // Stop loading
         }
     }
 
@@ -105,20 +153,43 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onDeleteSuccess }) 
                 </Modal.Body>
                 <Modal.Footer>
                     {currentVideo && (
-                        <Button variant="danger" onClick={handleDelete} disabled={loading}>
-                            {loading ? (
-                                <>
+                        <>
+                            <Button variant="danger" onClick={handleDelete} disabled={loading}>
+                                {loading ? (
+                                    <>
+                                        <Spinner as="span" animation="border" size="sm" style={{ marginRight: '5px' }} />
+                                        Excluindo...
+                                    </>
+                                ) : (
+                                    "Excluir Aula"
+                                )}
+                            </Button>
+                            <Button
+                                style={{ backgroundColor: "rgb(0, 200, 250)" }}
+                                onClick={handleUpdate}
+                                disabled={loading}
+                            >
+                                {loading ? (
                                     <Spinner as="span" animation="border" size="sm" style={{ marginRight: '5px' }} />
-                                    Excluindo...
-                                </>
+                                ) : (
+                                    "Alterar Aula"
+                                )}
+                            </Button>
+                        </>
+                    )}
+                    {!currentVideo && (
+                        <Button
+                            style={{ backgroundColor: "rgb(0, 200, 250)" }}
+                            onClick={handleCreate}
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <Spinner as="span" animation="border" size="sm" style={{ marginRight: '5px' }} />
                             ) : (
-                                "Excluir Aula"
+                                "Criar Aula"
                             )}
                         </Button>
                     )}
-                    <Button style={{ backgroundColor: "rgb(0, 200, 250)" }} disabled={loading}>
-                        {currentVideo ? "Alterar Aula" : "Criar Aula"}
-                    </Button>
                 </Modal.Footer>
             </Modal>
         </>
