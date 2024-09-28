@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Container, Card, Table, Row, Col, Spinner, Form } from 'react-bootstrap';
+import { Button, Container, Card, Table, Row, Col, Spinner, Form, CardBody } from 'react-bootstrap';
 import instance from '../services/supabase';
 
 interface Video {
@@ -15,24 +15,22 @@ const VideoContainer = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const videoRef = useRef<HTMLDivElement>(null);
 
-    // States for editing
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [editedName, setEditedName] = useState<string>("");
     const [editedUrl, setEditedUrl] = useState<string>("");
     const [editedComment, setEditedComment] = useState<string>("");
 
-    // Determine if the user is a teacher
     const [isTeacher, setIsTeacher] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchVideos = async () => {
+            const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
+            let endpoint = "aluno";
+            if (token.user.role === "teacher") {
+                endpoint = "professor";
+                setIsTeacher(true); // Set isTeacher to true if the user is a teacher
+            }
             try {
-                const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
-                let endpoint = "aluno";
-                if (token.user.role === "teacher") {
-                    endpoint = "professor";
-                    setIsTeacher(true); // Set isTeacher to true if the user is a teacher
-                }
                 const response = await instance.get(`/videos/${endpoint}`, {
                     headers: { Authorization: `Bearer ${token.access_token}` }
                 });
@@ -147,8 +145,6 @@ const VideoContainer = () => {
                                 <Card.Title style={{ paddingBlock: "30px", fontWeight: "700", color: "rgb(0,200,250)", fontSize: "28px" }}>
                                     {currentVideo.nome_video}
                                 </Card.Title>
-
-                                {/* Display editing fields only if the user is a teacher and in edit mode */}
                                 {isEditing && isTeacher ? (
                                     <Form>
                                         <Form.Group>
@@ -235,6 +231,7 @@ const VideoContainer = () => {
                                     )}
                                 </tbody>
                             </Table>
+                            {isTeacher ? (<CardBody><Button>Nova Aula</Button></CardBody>) : (<></>)}
                         </Card>
                     </Col>
                 </Row>

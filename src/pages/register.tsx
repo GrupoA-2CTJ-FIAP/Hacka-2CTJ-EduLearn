@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import Layout from "../components/layout";
 import instance from '../services/supabase'
@@ -9,6 +10,7 @@ interface Teacher {
 }
 
 const Register: React.FC = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
     const [cpf, setCpf] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -24,7 +26,6 @@ const Register: React.FC = () => {
             try {
                 const response = await instance.get('/teacher');
                 setTeachers(response.data);
-
                 console.log(response.data)
             } catch (error) {
                 console.error("Error fetching teachers:", error);
@@ -53,8 +54,8 @@ const Register: React.FC = () => {
             })
 
             console.log("Registered successfully:");
-            alert("User registered successfully!");
-
+            alert("Usuário cadastrado com sucesso!");
+            navigate('/login');
         } catch (error) {
             console.error("Error registering:", error);
             alert("Erro ao cadastrar usuário!")
