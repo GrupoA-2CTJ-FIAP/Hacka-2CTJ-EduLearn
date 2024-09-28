@@ -138,7 +138,7 @@ const Register: React.FC = () => {
                             </Form.Select>
                         </Form.Group>
 
-                        <Button variant="primary" type="submit" style={{ marginBlock: "20px" }}>
+                        <Button variant="primary" type="submit" style={{ backgroundColor: "rgb(0, 200, 250)", width: "120px", marginInline: "auto", marginBlock: "20px" }}>
                             Cadastrar
                         </Button>
                     </Form>

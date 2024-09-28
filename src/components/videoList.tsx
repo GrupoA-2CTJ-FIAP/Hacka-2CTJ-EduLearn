@@ -44,7 +44,7 @@ const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideo
             </Table>
             {isTeacher && (
                 <CardBody>
-                    <Button>Nova Aula</Button>
+                    <Button style={{backgroundColor:"rgb(0, 200, 250)",width:"120px",marginInline:"auto",marginBottom:"20px"}}>Nova Aula</Button>
                 </CardBody>
             )}
         </Card>

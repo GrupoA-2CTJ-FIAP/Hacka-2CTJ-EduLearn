@@ -70,7 +70,7 @@ export default function Login() {
             <Button
               variant="primary"
               type="submit"
-              style={{ marginBlock: "20px" }}
+              style={{backgroundColor:"rgb(0, 200, 250)",width:"120px",marginInline:"auto",marginBlock:"20px"}}
               disabled={loading} // Disable button while loading
             >
               {loading ? (
