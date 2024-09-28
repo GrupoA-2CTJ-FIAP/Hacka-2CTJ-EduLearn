@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button, Container, Card, Table, Row, Col, Spinner, Form, CardBody } from 'react-bootstrap';
+import { Button, Container, Card, Row, Col, Spinner, Form } from 'react-bootstrap';
+import VideoList from './videoList';
 import instance from '../services/supabase';
 
 interface Video {
@@ -203,36 +204,13 @@ const VideoContainer = () => {
                             </Card>
                         )}
                     </Col>
-
                     <Col xs={12} md={4}>
-                        <Card>
-                            <Card.Header>Aulas</Card.Header>
-                            <Table striped bordered hover>
-                                <tbody>
-                                    {videos.length > 0 ? (
-                                        videos.map((video, index) => (
-                                            <tr key={index}>
-                                                <td>
-                                                    <Button
-                                                        variant="outline-primary"
-                                                        onClick={() => handleVideoChange(video)}
-                                                        className="w-100"
-                                                        active={currentVideo?.video_url === video.video_url}
-                                                    >
-                                                        {video.nome_video}
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td>Nenhuma aula disponível</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>
-                            {isTeacher ? (<CardBody><Button>Nova Aula</Button></CardBody>) : (<></>)}
-                        </Card>
+                        <VideoList
+                            videos={videos}
+                            currentVideo={currentVideo}
+                            handleVideoChange={handleVideoChange}
+                            isTeacher={isTeacher}
+                        />
                     </Col>
                 </Row>
             )}
