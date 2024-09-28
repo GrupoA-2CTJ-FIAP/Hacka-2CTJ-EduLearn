@@ -24,7 +24,7 @@ const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideo
 
     return (
         <Card>
-            <Card.Header>Aulas {"- "+teacherName}</Card.Header>
+            <Card.Header>Aulas <span style={{fontWeight:"700"}}>{"- "+teacherName}</span></Card.Header>
             <Table striped bordered hover>
                 <tbody>
                     {sortedVideos.length > 0 ? (
