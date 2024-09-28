@@ -23,16 +23,15 @@ const VideoContainer = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
-            let endpoint = "aluno";
             if (token.user.role === "teacher") {
-                endpoint = "professor";
                 setIsTeacher(true); // Set isTeacher to true if the user is a teacher
             }
             try {
-                const response = await instance.get(`/videos/${endpoint}`, {
+                const response = await instance.get(`/videos/aluno`, {
                     headers: { Authorization: `Bearer ${token.access_token}` }
                 });
                 const videoData = response.data.videos;
+                console.log(videoData)
                 setTeacherName(response.data.professor)
                 if (videoData.length > 0) {
                     setVideos(videoData);
