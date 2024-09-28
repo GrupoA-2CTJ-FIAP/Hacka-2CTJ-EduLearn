@@ -18,6 +18,7 @@ const VideoContainer = () => {
     const videoRef = useRef<HTMLDivElement>(null);
 
     const [isTeacher, setIsTeacher] = useState<boolean>(false);
+    const [teacherName, setTeacherName] = useState<string>('');
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -31,7 +32,8 @@ const VideoContainer = () => {
                 const response = await instance.get(`/videos/${endpoint}`, {
                     headers: { Authorization: `Bearer ${token.access_token}` }
                 });
-                const videoData = response.data.data;
+                const videoData = response.data.videos;
+                setTeacherName(response.data.professor)
                 if (videoData.length > 0) {
                     setVideos(videoData);
                     setCurrentVideo(videoData[0]);
@@ -110,6 +112,7 @@ const VideoContainer = () => {
                             currentVideo={currentVideo}
                             handleVideoChange={handleVideoChange}
                             isTeacher={isTeacher}
+                            teacherName={teacherName}
                         />
                     </Col>
                 </Row>

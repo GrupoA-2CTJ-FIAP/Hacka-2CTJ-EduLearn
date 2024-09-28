@@ -12,10 +12,11 @@ interface VideoListProps {
     videos: Video[];
     currentVideo: Video | null;
     handleVideoChange: (video: Video) => void;
-    isTeacher: boolean;
+    isTeacher: boolean
+    teacherName?: string | null;
 }
 
-const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideoChange, isTeacher }) => {
+const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideoChange, isTeacher, teacherName }) => {
     // Sort the videos alphabetically by 'nome_video'
     const sortedVideos = [...videos].sort((a, b) =>
         a.nome_video.localeCompare(b.nome_video)
@@ -23,7 +24,7 @@ const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideo
 
     return (
         <Card>
-            <Card.Header>Aulas</Card.Header>
+            <Card.Header>Aulas {"- "+teacherName}</Card.Header>
             <Table striped bordered hover>
                 <tbody>
                     {sortedVideos.length > 0 ? (
