@@ -279,7 +279,20 @@ exports.getVideosByAluno = async (req, res) => {
         .json({ error: 'Erro ao buscar o id_professor', details: usuarioError })
     }
 
+    const { data: professor, error: professorError } = await supabase
+      .from('d_usuarios')
+      .select('nome_usuario')
+      .eq('id_usuario', usuario.id_professor)
+      .single()
+
+    if (professorError || !professor) {
+      console.error('Erro ao buscar o nome_usuario do professor:', usuarioError)
+      return res
+        .status(400)
+        .json({ error: 'Erro ao buscar o nome_usuario do professor', details: usuarioError })
+    }
     const id_professor = usuario.id_professor
+    const nome_professor = professor.nome_usuario
 
     const { data: videos, error: videoError } = await supabase
       .from('d_catalogo')
@@ -293,7 +306,7 @@ exports.getVideosByAluno = async (req, res) => {
         .json({ error: 'Erro ao listar vídeos', details: videoError })
     }
 
-    res.status(200).json({ data: videos })
+    res.status(200).json({ videos, professor: nome_professor })
   } catch (error) {
     console.error('Erro inesperado ao listar vídeos do professor:', error)
     res.status(500).json({ error: 'Erro ao listar vídeos', details: error })
