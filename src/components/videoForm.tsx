@@ -47,9 +47,10 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
             const updateData = {
                 nome_video: videoName,
-                video_url: videoUrl,
+                video_url: "https://www.youtube.com/watch?v="+videoUrl,
                 comentario: videoComment
             };
+            console.log(updateData)
             const response = await instance.put(`/videos/${currentVideo?.id_video}`, updateData, {
                 headers: { Authorization: `Bearer ${token.access_token}` }
             });
