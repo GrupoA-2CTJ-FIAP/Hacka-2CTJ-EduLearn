@@ -19,7 +19,6 @@ const Register: React.FC = () => {
     const [responsibleTeacher, setResponsibleTeacher] = useState<string>("");
     const [teachers, setTeachers] = useState<Teacher[]>([]); // State for teachers
 
-    // Fetch teachers when component mounts
     useEffect(() => {
         const fetchTeachers = async () => {
 
@@ -38,7 +37,7 @@ const Register: React.FC = () => {
 
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsTeacher(e.target.checked);
-        setResponsibleTeacher(""); // Clear the selected teacher if the user toggles the switch
+        setResponsibleTeacher(""); 
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -125,8 +124,8 @@ const Register: React.FC = () => {
                                 aria-label="Selecione o professor responsável"
                                 value={responsibleTeacher}
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setResponsibleTeacher(e.target.value)}
-                                disabled={isTeacher} // Disable if the user is a teacher
-                                required={!isTeacher} // Require if the user is not a teacher
+                                disabled={isTeacher} 
+                                required={!isTeacher} 
                             >
                                 <option value="">Selecione o professor responsável</option>
                                 {teachers.map(teacher => (

@@ -18,7 +18,6 @@ interface VideoListProps {
 }
 
 const VideoList: React.FC<VideoListProps> = ({ videos, currentVideo, handleVideoChange, isTeacher, teacherName, onSuccessfulAction }) => {
-    // Sort the videos alphabetically by 'nome_video'
     const sortedVideos = [...videos].sort((a, b) =>
         a.nome_video.localeCompare(b.nome_video)
     );

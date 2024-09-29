@@ -12,12 +12,12 @@ function Home() {
                 padding: '80px 20px',
                 textAlign: 'center',
                 borderBottom: '4px solid #007bff',
-                overflow: 'hidden', // Ensures that the overlay stays within bounds
+                overflow: 'hidden',
             }}>
                 <div style={{
                     backgroundImage: `url('https://media.giphy.com/media/7FrOU9tPbgAZtxV5mb/giphy.gif')`,
                     backgroundSize: 'cover',
-                    height: '400px', // Fixed height for the GIF
+                    height: '400px', 
                     width: '100%',
                     position: 'absolute',
                     top: 0,
@@ -26,11 +26,11 @@ function Home() {
                 }} />
 
                 <div style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust opacity here
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    height: '400px', // Match this height with the GIF
+                    height: '400px',
                     width: '100%',
                     zIndex: 2
                 }} />

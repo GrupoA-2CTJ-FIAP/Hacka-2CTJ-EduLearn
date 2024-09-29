@@ -50,7 +50,7 @@ const VideoContainer = () => {
     }, []);
 
     const handleRefresh = async () => {
-        await fetchVideos(); // Refresh the video list after deletion
+        await fetchVideos();
     };
     const handleVideoChange = (video: Video) => {
         setCurrentVideo(video);

@@ -1,10 +1,10 @@
 import { Navbar, Nav } from "react-bootstrap";
-import { useAuth } from "../hooks/useAuth"; // Import the useAuth hook
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom"; 
 
 const Header = () => {
-    const { user, signOut } = useAuth(); // Get user and signOut from the Auth context
-    const navigate = useNavigate(); // Initialize useNavigate for redirection
+    const { user, signOut } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {

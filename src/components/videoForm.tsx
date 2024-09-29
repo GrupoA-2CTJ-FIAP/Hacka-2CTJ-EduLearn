@@ -19,7 +19,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
     const [videoName, setVideoName] = useState("");
     const [videoUrl, setVideoUrl] = useState("");
     const [videoComment, setVideoComment] = useState("");
-    const [loading, setLoading] = useState(false); // Loading state for the spinner
+    const [loading, setLoading] = useState(false);
 
     const handleClose = () => setShow(false);
 
@@ -55,14 +55,14 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
                 headers: { Authorization: `Bearer ${token.access_token}` }
             });
             console.log(response);
-            alert("Aula atualizada com sucesso!"); // Update alert message
-            onSuccessfulAction(); // Call the success handler to refresh the list
-            handleClose(); // Close modal after updating
+            alert("Aula atualizada com sucesso!"); 
+            onSuccessfulAction(); 
+            handleClose(); 
         } catch (error) {
             console.error("Error updating video:", error);
-            alert("Erro ao atualizar a aula!"); // Update error alert message
+            alert("Erro ao atualizar a aula!"); 
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false); 
         }
     }
     async function handleCreate() {
@@ -100,7 +100,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
             setVideoUrl("");
             setVideoComment("");
         }
-        setShow(true); // Show the modal after setting/resetting the form fields
+        setShow(true); 
     };
 
     return (
