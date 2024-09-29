@@ -42,6 +42,11 @@ const VideoContainer = () => {
         } catch (error) {
             console.error("Error fetching videos:", error);
             alert("Erro ao buscar vídeos!");
+            const isSessionValid = await checkSession();
+            console.log(isSessionValid)
+            if(!isSessionValid){
+                signOut();
+            }
         } finally {
             setLoading(false);
         }
