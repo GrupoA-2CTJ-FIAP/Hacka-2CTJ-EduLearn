@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Spinner } from 'react-bootstrap';
+import { Button, Modal, Form, Spinner, InputGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import instance from '../services/supabase';
 
@@ -47,7 +47,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
             const updateData = {
                 nome_video: videoName,
-                video_url: "https://www.youtube.com/watch?v="+videoUrl,
+                video_url: "https://www.youtube.com/watch?v=" + videoUrl,
                 comentario: videoComment
             };
             console.log(updateData)
@@ -69,24 +69,24 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
         try {
             setLoading(true);
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
-            const updateData = {
+            const createData = {
                 nome_video: videoName,
-                video_url: "https://www.youtube.com/watch?v="+videoUrl,
+                video_url: videoUrl,
                 comentario: videoComment
             };
-            console.log(updateData)
-            const response = await instance.put(`/videos/${currentVideo?.id_video}`, updateData, {
+            console.log(createData)
+            const response = await instance.post(`/videos`, createData, {
                 headers: { Authorization: `Bearer ${token.access_token}` }
             });
             console.log(response);
-            alert("Aula atualizada com sucesso!"); // Update alert message
-            onSuccessfulAction(); // Call the success handler to refresh the list
-            handleClose(); // Close modal after updating
+            alert("Aula criada com sucesso!");
+            onSuccessfulAction();
+            handleClose();
         } catch (error) {
-            console.error("Error updating video:", error);
-            alert("Erro ao atualizar a aula!"); // Update error alert message
+            console.error("Error creating video:", error);
+            alert("Erro ao criar a aula!");
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     }
 
@@ -134,12 +134,15 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
                         </Form.Group>
                         <Form.Group controlId="formVideoUrl" className="mt-3">
                             <Form.Label>URL do Vídeo</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={videoUrl}
-                                onChange={(e) => setVideoUrl(e.target.value)}
-                                placeholder="Insira o URL do vídeo"
-                            />
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="basic-addon3">
+                                    https://youtube.com/watch/?v=
+                                </InputGroup.Text>
+                                <Form.Control aria-describedby="basic-addon3" type="text"
+                                    value={videoUrl}
+                                    onChange={(e) => setVideoUrl(e.target.value)}
+                                    placeholder="Insira o URL do vídeo" />
+                            </InputGroup>
                         </Form.Group>
                         <Form.Group controlId="formVideoComment" className="mt-3">
                             <Form.Label>Comentário</Form.Label>
