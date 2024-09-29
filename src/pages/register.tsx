@@ -25,7 +25,6 @@ const Register: React.FC = () => {
             try {
                 const response = await instance.get('/teacher');
                 setTeachers(response.data);
-                console.log(response.data)
             } catch (error) {
                 console.error("Error fetching teachers:", error);
                 alert("Erro ao buscar professores!");
@@ -37,7 +36,7 @@ const Register: React.FC = () => {
 
     const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsTeacher(e.target.checked);
-        setResponsibleTeacher(""); 
+        setResponsibleTeacher("");
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,8 +50,6 @@ const Register: React.FC = () => {
                 "id_professor": isTeacher ? null : responsibleTeacher,
                 "flag_professor": isTeacher
             })
-
-            console.log("Registered successfully:");
             alert("Usuário cadastrado com sucesso!");
             navigate('/login');
         } catch (error) {
@@ -81,9 +78,11 @@ const Register: React.FC = () => {
                         <Form.Group controlId="formIdentity">
                             <Form.Label>CPF</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 placeholder="CPF"
                                 value={cpf}
+                                maxLength={11}
+                                minLength={11}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf(e.target.value)}
                                 required
                             />
@@ -106,9 +105,13 @@ const Register: React.FC = () => {
                                 type="password"
                                 placeholder="Senha"
                                 value={password}
+                                minLength={6}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                                 required
                             />
+                            <Form.Text id="passwordHelpBlock" muted>
+                                Sua senha deve ter ao menos 6 caracteres.
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group controlId="formTeacherFlag">
@@ -124,8 +127,8 @@ const Register: React.FC = () => {
                                 aria-label="Selecione o professor responsável"
                                 value={responsibleTeacher}
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setResponsibleTeacher(e.target.value)}
-                                disabled={isTeacher} 
-                                required={!isTeacher} 
+                                disabled={isTeacher}
+                                required={!isTeacher}
                             >
                                 <option value="">Selecione o professor responsável</option>
                                 {teachers.map(teacher => (
