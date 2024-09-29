@@ -1,12 +1,12 @@
 const supabase = require('../config/supabase')
 
 //Função para tratar URL de vídeo
-function extractYouTubeId(url) {
+/*function extractYouTubeId(url) {
   const regex =
     /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
   const matches = url.match(regex)
   return matches ? matches[1] : null
-}
+}*/
 
 // Adicionar um vídeo
 exports.addVideo = async (req, res) => {
@@ -19,10 +19,10 @@ exports.addVideo = async (req, res) => {
     return res.status(400).json({ error: 'auth_id não encontrado no token' })
   }
 
-  const videoId = extractYouTubeId(video_url)
+  /*const videoId = extractYouTubeId(video_url)
   if (!videoId) {
     return res.status(400).json({ error: 'URL de vídeo inválida' })
-  }
+  }*/
 
   try {
     const { data: userData, error: userError } = await supabase
@@ -84,10 +84,10 @@ exports.editVideo = async (req, res) => {
       .json({ error: 'Todos os campos obrigatórios devem ser fornecidos' })
   }
 
-  const videoId = extractYouTubeId(video_url)
+  /*const videoId = extractYouTubeId(video_url)
   if (!videoId) {
     return res.status(400).json({ error: 'URL de vídeo inválida' })
-  }
+  }*/
 
   try {
     const { data: userData, error: userError } = await supabase
@@ -256,11 +256,11 @@ exports.getVideosByProfessor = async (req, res) => {
 }
 
 exports.getVideosByAluno = async (req, res) => {
-  const { user } = req.user;
-  const auth_id = user ? user.id : null;
+  const { user } = req.user
+  const auth_id = user ? user.id : null
 
   if (!auth_id) {
-    return res.status(400).json({ error: 'auth_id não encontrado no token' });
+    return res.status(400).json({ error: 'auth_id não encontrado no token' })
   }
 
   try {
@@ -268,54 +268,60 @@ exports.getVideosByAluno = async (req, res) => {
       .from('d_usuarios')
       .select('id_professor, id_usuario, nome_usuario')
       .eq('auth_id', auth_id)
-      .single();
+      .single()
     if (usuarioError || !usuario) {
-      console.error('Erro ao buscar o usuário:', usuarioError);
+      console.error('Erro ao buscar o usuário:', usuarioError)
       return res
         .status(400)
-        .json({ error: 'Erro ao buscar o usuário', details: usuarioError });
+        .json({ error: 'Erro ao buscar o usuário', details: usuarioError })
     }
 
-    let id_professor;
-    let nome_professor;
+    let id_professor
+    let nome_professor
 
     if (user.role === 'teacher') {
-      id_professor = usuario.id_usuario;
-      nome_professor = usuario.nome_usuario;
+      id_professor = usuario.id_usuario
+      nome_professor = usuario.nome_usuario
     } else {
-      id_professor = usuario.id_professor;
+      id_professor = usuario.id_professor
 
       const { data: professor, error: professorError } = await supabase
         .from('d_usuarios')
         .select('nome_usuario')
         .eq('id_usuario', id_professor)
-        .single();
+        .single()
 
       if (professorError || !professor) {
-        console.error('Erro ao buscar o nome_usuario do professor:', professorError);
+        console.error(
+          'Erro ao buscar o nome_usuario do professor:',
+          professorError
+        )
         return res
           .status(400)
-          .json({ error: 'Erro ao buscar o nome_usuario do professor', details: professorError });
+          .json({
+            error: 'Erro ao buscar o nome_usuario do professor',
+            details: professorError
+          })
       }
 
-      nome_professor = professor.nome_usuario;
+      nome_professor = professor.nome_usuario
     }
-    console.log('Professor ID:', id_professor);
+    console.log('Professor ID:', id_professor)
     const { data: videos, error: videoError } = await supabase
       .from('d_catalogo')
       .select('*')
-      .eq('id_usuario', id_professor);
+      .eq('id_usuario', id_professor)
 
     if (videoError) {
-      console.error('Erro ao listar vídeos:', videoError);
+      console.error('Erro ao listar vídeos:', videoError)
       return res
         .status(400)
-        .json({ error: 'Erro ao listar vídeos', details: videoError });
+        .json({ error: 'Erro ao listar vídeos', details: videoError })
     }
 
-    res.status(200).json({ videos, professor: nome_professor });
+    res.status(200).json({ videos, professor: nome_professor })
   } catch (error) {
-    console.error('Erro inesperado ao listar vídeos:', error);
-    res.status(500).json({ error: 'Erro ao listar vídeos', details: error });
+    console.error('Erro inesperado ao listar vídeos:', error)
+    res.status(500).json({ error: 'Erro ao listar vídeos', details: error })
   }
-};
+}
