@@ -86,6 +86,9 @@ const Register: React.FC = () => {
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf(e.target.value)}
                                 required
                             />
+                            <Form.Text id="identityHelpBlock" muted>
+                                Apenas números.
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group controlId="formEmail">
