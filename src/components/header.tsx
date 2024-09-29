@@ -1,6 +1,7 @@
 import { Navbar, Nav } from "react-bootstrap";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import TeacherIcon from "../assets/teacher-icon";
 
 const Header = () => {
     const { user, signOut } = useAuth();
@@ -26,6 +27,12 @@ const Header = () => {
                 <Nav className="ms-auto" style={{ paddingBlock: "30px", fontSize: "18px" }}>
                     {user ? (
                         <>
+                            {user.role === "teacher" && (
+                                <div style={{ display: "flex", alignItems: "center", color: "cyan",margin:"8px" }}>
+                                    <p style={{ margin: 0 }}>Prof.</p>
+                                    <TeacherIcon color="cyan"/>
+                                </div>
+                            )}
                             <Nav.Link style={{ cursor: 'pointer', color: 'white' }}>{user.email}</Nav.Link>
                             <Nav.Link onClick={handleLogout} style={{ cursor: 'pointer', color: 'red' }}>Sair</Nav.Link>
                         </>
