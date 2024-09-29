@@ -9,7 +9,7 @@ export interface AuthContextType {
   user: User | null;
   signIn: (email: string, password: string) => Promise<User | null>;
   signOut: () => Promise<void>;
-  checkSession: () => Promise<boolean>; // Expose the session check function
+  checkSession: () => Promise<boolean>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,7 +17,6 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  // Function to check if the Supabase session is still valid
   const checkSession = async (): Promise<boolean> => {
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
     if (sessionError) {
@@ -25,20 +24,18 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
     if (sessionData?.session) {
-      setUser(sessionData.session.user); // Update user if session is valid
+      setUser(sessionData.session.user);
       return true;
     } else {
-      setUser(null); // Clear user if session is invalid
+      setUser(null);
       return false;
     }
   };
 
-  // Initial session check on component mount
   useEffect(() => {
     checkSession();
   }, []);
 
-  // Sign-in function
   const signIn = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
@@ -49,7 +46,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return data.user;
   };
 
-  // Sign-out function
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -60,7 +56,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const contextValue = useMemo(
-    () => ({ user, signIn, signOut, checkSession }), // Include checkSession in the context value
+    () => ({ user, signIn, signOut, checkSession }), 
     [user]
   );
 

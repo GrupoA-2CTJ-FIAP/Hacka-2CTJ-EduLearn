@@ -37,6 +37,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
         } catch (error) {
             console.error("Error deleting video:", error);
             alert("Erro ao excluir a aula!");
+            onSuccessfulAction()
         } finally {
             setLoading(false);
         }
@@ -61,6 +62,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
         } catch (error) {
             console.error("Error updating video:", error);
             alert("Erro ao atualizar a aula!");
+            onSuccessfulAction()
         } finally {
             setLoading(false);
         }
@@ -85,6 +87,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
         } catch (error) {
             console.error("Error creating video:", error);
             alert("Erro ao criar a aula!");
+            onSuccessfulAction()
         } finally {
             setLoading(false);
         }

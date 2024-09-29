@@ -3,6 +3,7 @@ import { Container, Card, Row, Col, Spinner } from 'react-bootstrap';
 import VideoList from './videoList';
 import VideoForm from './videoForm';
 import instance from '../services/supabase';
+import { useAuth } from "../hooks/useAuth";
 
 interface Video {
     id_video: number;
@@ -18,6 +19,7 @@ const VideoContainer = () => {
     const videoRef = useRef<HTMLDivElement>(null);
     const [isTeacher, setIsTeacher] = useState<boolean>(false);
     const [teacherName, setTeacherName] = useState<string>('');
+    const { checkSession, signOut } = useAuth(); 
 
     const fetchVideos = async () => {
         const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
@@ -45,12 +47,19 @@ const VideoContainer = () => {
         }
     };
 
+
     useEffect(() => {
         fetchVideos();
     }, []);
 
     const handleRefresh = async () => {
-        await fetchVideos();
+        const isSessionValid = await checkSession();
+        console.log(isSessionValid)
+        if(isSessionValid){
+            await fetchVideos();
+        }else{
+            signOut();
+        }
     };
     const handleVideoChange = (video: Video) => {
         setCurrentVideo(video);
