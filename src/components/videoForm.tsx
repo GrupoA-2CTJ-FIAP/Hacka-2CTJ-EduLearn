@@ -71,7 +71,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
             const createData = {
                 nome_video: videoName,
-                video_url: "https://www.youtube.com/watch?v=" + videoUrl,
+                video_url: videoUrl,
                 comentario: videoComment
             };
             console.log(createData)
