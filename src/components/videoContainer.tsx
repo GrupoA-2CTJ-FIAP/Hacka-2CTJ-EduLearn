@@ -113,6 +113,7 @@ const VideoContainer = () => {
                             handleVideoChange={handleVideoChange}
                             isTeacher={isTeacher}
                             teacherName={teacherName}
+                            onSuccessfulAction={handleRefresh}
                         />
                     </Col>
                 </Row>
