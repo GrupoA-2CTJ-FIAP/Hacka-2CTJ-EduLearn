@@ -71,7 +71,7 @@ exports.editVideo = async (req, res) => {
   }
 
   const id_video = req.params.id_video
-
+  console.log(id_video)
   if (!id_video || !nome_video || !video_url || comentario === undefined) {
     console.error('Campos obrigatórios não fornecidos:', {
       id_video,
@@ -126,7 +126,7 @@ exports.editVideo = async (req, res) => {
 
     const { data, error } = await supabase
       .from('d_catalogo')
-      .update({ nome_video, video_url: videoId, comentario })
+      .update({ nome_video, video_url, comentario })
       .eq('id_video', id_video)
       .eq('id_usuario', id_usuario)
 
