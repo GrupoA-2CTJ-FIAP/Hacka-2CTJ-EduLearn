@@ -55,14 +55,14 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
                 headers: { Authorization: `Bearer ${token.access_token}` }
             });
             console.log(response);
-            alert("Aula atualizada com sucesso!"); 
-            onSuccessfulAction(); 
-            handleClose(); 
+            alert("Aula atualizada com sucesso!");
+            onSuccessfulAction();
+            handleClose();
         } catch (error) {
             console.error("Error updating video:", error);
-            alert("Erro ao atualizar a aula!"); 
+            alert("Erro ao atualizar a aula!");
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     }
     async function handleCreate() {
@@ -100,7 +100,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
             setVideoUrl("");
             setVideoComment("");
         }
-        setShow(true); 
+        setShow(true);
     };
 
     return (
@@ -135,7 +135,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
                         <Form.Group controlId="formVideoUrl" className="mt-3">
                             <Form.Label>URL do Vídeo</Form.Label>
                             <InputGroup className="mb-3">
-                                <InputGroup.Text id="basic-addon3">
+                                <InputGroup.Text id="basic-addon3" style={{ color: "rgb(150,150,150)" }}>
                                     https://youtube.com/watch/?v=
                                 </InputGroup.Text>
                                 <Form.Control aria-describedby="basic-addon3" type="text"
