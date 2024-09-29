@@ -18,19 +18,20 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const getSessionAndUser = async () => {
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) {
+      console.error("Error getting session:", sessionError.message);
+      return;
+    }
+    if (sessionData?.session) {
+      setUser(sessionData.session.user);
+    } else {
+      setUser(null);
+    }
+  };
+  
   useEffect(() => {
-    const getSessionAndUser = async () => {
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) {
-        console.error("Error getting session:", sessionError.message);
-        return;
-      }
-      if (sessionData?.session) {
-        setUser(sessionData.session.user);
-      } else {
-        setUser(null);
-      }
-    };
     getSessionAndUser();
   }, []);
 
@@ -48,7 +49,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Error signing out:", error.message);
-      throw error; 
+      throw error;
     }
     setUser(null);
   };
