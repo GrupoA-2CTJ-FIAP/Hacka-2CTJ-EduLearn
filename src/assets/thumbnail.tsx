@@ -24,7 +24,8 @@ export default function Thumbnail({ youtubeId }: ThumbnailProps) {
         padding: '10px',
         width: '300px',
         textAlign: 'center',
-        margin: '0 auto', // Centers the box horizontally
+        margin: '0 auto', 
+        marginTop: '20px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
