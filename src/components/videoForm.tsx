@@ -45,6 +45,10 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
     }
     async function handleUpdate() {
         try {
+            if (!videoName || !videoUrl || !videoComment) {
+                alert("Todos os campos devem ser preenchidos.");
+                return;
+            }
             setLoading(true);
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
             const updateData = {
@@ -70,6 +74,10 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
     }
     async function handleCreate() {
         try {
+            if (!videoName || !videoUrl || !videoComment) {
+                alert("Todos os campos devem ser preenchidos.");
+                return;
+            }
             setLoading(true);
             const token = JSON.parse(localStorage.getItem("sb-yhuhhyjrbuveavowpwlj-auth-token") || '""');
             const createData = {
