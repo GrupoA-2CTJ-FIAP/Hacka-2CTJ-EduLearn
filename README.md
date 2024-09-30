@@ -54,13 +54,13 @@ Na pasta raiz instale as dependências com o comando "npm i" ou "npm install". E
 
 ## Utilização da Aplicação
 
-No início do projeto a página Home será apresentada. Esta é a página de boas-vindas do projeto e apresenta as opções de Login e Cadastro. Também possui uma descrição das funcionalidades da ferramenta.
-Crie um cadastro de professor e realize o login.
-Se seu cadastro é de professor, você terá permissões de criar novas aulas e então editá-las ou excluí-las como quiser!
-Clique em "Sair".
-Agora, crie um cadastro de aluno e realize o login.
-Se seu cadastro é de aluno, você deve escolher a qual professor seguir. Você poderá ver apenas as aulas do professor vinculado. Selecione o professor que criou anteriormente e veja as aulas cadastradas!
-Se deseja visualizar alguns usuários pré-cadastrados, utilize as seguintes credenciais:
+#No início do projeto a página Home será apresentada. Esta é a página de boas-vindas do projeto e apresenta as opções de Login e Cadastro. Também possui uma descrição das funcionalidades da ferramenta.
+#Crie um cadastro de professor e realize o login.
+#Se seu cadastro é de professor, você terá permissões de criar novas aulas e então editá-las ou excluí-las como quiser!
+#Clique em "Sair".
+#Agora, crie um cadastro de aluno e realize o login.
+#Se seu cadastro é de aluno, você deve escolher a qual professor seguir. Você poderá ver apenas as aulas do professor vinculado. Selecione o professor que criou anteriormente e veja as aulas cadastradas!
+#Se deseja visualizar alguns usuários pré-cadastrados, utilize as seguintes credenciais:
 
 ```
 Usuário Professor: usuario@adm.com
