@@ -69,4 +69,4 @@ Usuário Aluno: usuario@aluno.com
 Senha: 123456
 ```
 
-<a>Video de Uso</a>
+<a>[Video de Uso](https://www.youtube.com/watch?v=ytlgLnzrtJI)</a>
