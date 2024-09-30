@@ -30,7 +30,7 @@ export default function Thumbnail({ youtubeId }: ThumbnailProps) {
         alignItems: 'center',
       }}
     >
-      <div style={{ fontWeight: 'bold', marginBottom: '10px' }}>Preview</div>
+      <div style={{ fontWeight: 'bold', marginBottom: '10px' }}>Pré-visualizar Vídeo</div>
       <a href={videoUrl} target="_blank" rel="noopener noreferrer">
         <img
           src={`http://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`}
