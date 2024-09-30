@@ -1,6 +1,7 @@
 import { Button, Modal, Form, Spinner, InputGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import instance from '../services/supabase';
+import Thumbnail from '../assets/thumbnail';
 
 interface Video {
     id_video: number;
@@ -102,7 +103,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
             setVideoName("");
             setVideoUrl("");
             setVideoComment("");
-        }
+        } 
         setShow(true);
     };
 
@@ -145,6 +146,7 @@ const VideoForm: React.FC<VideoFormProps> = ({ currentVideo, onSuccessfulAction 
                                     value={videoUrl}
                                     onChange={(e) => setVideoUrl(e.target.value)}
                                     placeholder="Insira o URL do vídeo" />
+                                    <Thumbnail youtubeId={videoUrl}/>
                             </InputGroup>
                         </Form.Group>
                         <Form.Group controlId="formVideoComment" className="mt-3">
