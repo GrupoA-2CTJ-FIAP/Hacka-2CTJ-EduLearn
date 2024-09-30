@@ -31,12 +31,27 @@ Firestore, SQL ou MongoDB como banco de dados.
 Após o Clone do projeto navegue até a pasta backend
 
 Instale as dependências utilizando: ˋnpm installˋ
+Crie o arquivo .env no diretório `backend`
+
+```
+SUPABASE_URL= "https://yhuhhyjrbuveavowpwlj.supabase.co (este é o endereço do projeto supabase)"
+SUPABASE_KEY= "insira a chave do projeto supabase aqui"
+SUPABASE_SECRET_KEY= "insira a chave secreta do projeto supabase aqui"
+PORT=3000
+```
 
 Para iniciar o Servidor utilize ˋnpm startˋ. Mantenha-o em execução durante todo o teste do projeto.
 
 ## Instalação Front-end
 
-Navegue até a pasta frontend e instale as dependências com o comando "npm i" ou "npm install". Execute o comando "npm run dev" dentro do diretório frontend e abra a página localizada por padrão em "http://localhost:5173/".
+Crie o arquivo .env no diretório raiz
+
+```
+VITE_SUPABASE_URL= "https://yhuhhyjrbuveavowpwlj.supabase.co (este é o endereço do projeto supabase)"
+VITE_SUPABASE_ANON_KEY= "insira a chave anônima do projeto supabase aqui"
+PORT=3000
+```
+Na pasta raiz instale as dependências com o comando "npm i" ou "npm install". Execute o comando "npm run dev" dentro do diretório raiz e abra a página localizada por padrão em "http://localhost:5173/".
 
 ## Utilização da Aplicação
 
