@@ -49,7 +49,6 @@ Crie o arquivo .env no diretório raiz
 ```
 VITE_SUPABASE_URL= "https://yhuhhyjrbuveavowpwlj.supabase.co (este é o endereço do projeto supabase)"
 VITE_SUPABASE_ANON_KEY= "insira a chave anônima do projeto supabase aqui"
-PORT=3000
 ```
 Na pasta raiz instale as dependências com o comando "npm i" ou "npm install". Execute o comando "npm run dev" dentro do diretório raiz e abra a página localizada por padrão em "http://localhost:5173/".
 
